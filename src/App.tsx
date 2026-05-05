@@ -3,9 +3,12 @@ import { AuthProvider } from './context/AuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { PrivateRoute } from './utils/PrivateRoute';
 import { Layout } from './layout/Layout';
-import LoginPage from './pages/auth/LoginPage';
-import AccueilPatient from './pages/AccueilPatient';
-import RechercheDossier from './pages/RechercheDossier';
+import LoginPage from './pages/auth/LoginPage/LoginPage';
+import AccueilPatient from './pages/AccueilPatient/AccueilPatient';
+import RechercheDossier from './pages/RechercheDossier/RechercheDossier';
+import ProfilPage from './pages/ProfilPage/ProfilPage';
+import ConfidentialitePage from './pages/ConfidentialitePage/ConfidentialitePage';
+import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
               <Route path="file" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>File d'attente — En développement</p></div>} />
               <Route path="registre" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>Registre du jour — En développement</p></div>} />
               <Route path="statistiques" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>Statistiques — En développement</p></div>} />
+              <Route path="notifications"   element={<NotificationsPage />}   />
+              <Route path="profil"          element={<ProfilPage />}          />
+              <Route path="confidentialite" element={<ConfidentialitePage />} />
             </Route>
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>

@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
+import './RechercheDossier.css';
 import {
   Search, User, ChevronRight, FileText,
   Calendar, Phone, X, Filter, AlertTriangle,
 } from 'lucide-react';
-import { patientsData, type Patient } from '../services/patients';
+import { patientsData, type Patient } from '../../services/patients';
 
 const AVATAR_COLORS = ['#388bfd', '#3fb950', '#7c3aed', '#d29922', '#f85149'];
 const initials = (nom: string, prenom: string) =>

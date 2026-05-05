@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { useState } from 'react';
-import { Topbar } from './Topbar';
-import { Sidebar } from './Sidebar';
-import { Footer } from './Footer';
+import { Topbar } from './Topbar/Topbar';
+import { Sidebar } from './Sidebar/Sidebar';
+import { Footer } from './Footer/Footer';
 import { useTheme } from '../context/ThemeContext';
 import { DoctorProvider } from '../context/DoctorContext';
 import '../styles/design-system.css';

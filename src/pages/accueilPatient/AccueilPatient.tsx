@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import type { PatientType } from './accueilPatient/types';
-import { KpiCards } from './accueilPatient/KpiCards';
-import { TypeSelector } from './accueilPatient/TypeSelector';
-import { NouveauPatientForm } from './accueilPatient/NouveauPatientForm';
-import { AncienPatientSection } from './accueilPatient/AncienPatientSection';
-import { CritiqueFormSection } from './accueilPatient/CritiqueFormSection';
-import { patientsData } from '../services/patients';
-import type { PatientStats } from '../services/patients';
+import './AccueilPatient.css';
+import type { PatientType } from './types';
+import { KpiCards } from './KpiCards';
+import { TypeSelector } from './TypeSelector';
+import { NouveauPatientForm } from './NouveauPatientForm';
+import { AncienPatientSection } from './AncienPatientSection';
+import { CritiqueFormSection } from './CritiqueFormSection';
+import { patientsData } from '../../services/patients';
+import type { PatientStats } from '../../services/patients';
 
 const AccueilPatient: React.FC = () => {
   const [patientType, setPatientType] = useState<PatientType>(null);
