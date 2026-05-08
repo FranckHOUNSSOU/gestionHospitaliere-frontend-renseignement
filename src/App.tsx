@@ -4,7 +4,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { PrivateRoute } from './utils/PrivateRoute';
 import { Layout } from './layout/Layout';
 import LoginPage from './pages/auth/LoginPage/LoginPage';
-import AccueilPatient from './pages/AccueilPatient/AccueilPatient';
+import AccueilPatient from './pages/accueilPatient/AccueilPatient';
 import RechercheDossier from './pages/RechercheDossier/RechercheDossier';
 import ProfilPage from './pages/ProfilPage/ProfilPage';
 import ConfidentialitePage from './pages/ConfidentialitePage/ConfidentialitePage';
