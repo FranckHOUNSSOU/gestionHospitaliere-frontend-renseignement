@@ -95,6 +95,14 @@ export const patientsData = {
     return data;
   },
 
+  fetchPatientsToday: async (): Promise<Patient[]> => {
+    const { data } = await client.get<Patient[]>('/patients');
+    const todayStr = new Date().toISOString().slice(0, 10);
+    return data
+      .filter(p => p.createdAt.slice(0, 10) === todayStr)
+      .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+  },
+
   fetchStatsToday: async (): Promise<PatientStats> => {
     const { data } = await client.get<Patient[]>('/patients');
 
