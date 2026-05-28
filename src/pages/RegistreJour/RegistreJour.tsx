@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   RefreshCw, Search, BookOpen, UserPlus,
-  AlertTriangle, UserX, ChevronDown, ChevronRight,
+  AlertTriangle, ChevronDown, ChevronRight,
   Phone, Calendar, User, MapPin, Shield,
 } from 'lucide-react';
 import { patientsData, type Patient } from '../../services/patients';
@@ -52,11 +52,7 @@ export default function RegistreJour() {
     return () => clearInterval(id);
   }, [load]);
 
-  /* ── Stats ─────────────────────────────────────────────────── */
-  const total     = patients.length;
-  const nouveaux  = patients.filter(p => !p.numeroIpp.startsWith('IPP-PROV')).length;
-  const critiques = patients.filter(p =>  p.numeroIpp.startsWith('IPP-PROV')).length;
-  const incomplets= patients.filter(p => p.statutProfil === 'Incomplet').length;
+  const total = patients.length;
 
   /* ── Filtres ────────────────────────────────────────────────── */
   const filtered = patients.filter(p => {
@@ -101,24 +97,6 @@ export default function RegistreJour() {
           />
           Actualiser
         </button>
-      </div>
-
-      {/* KPI */}
-      <div className="adm-kpi-grid">
-        {[
-          { val: total,      label: "Enregistrés aujourd'hui", icon: <BookOpen size={16} />,      cls: 'adm-kpi-blue'   },
-          { val: nouveaux,   label: 'Nouveaux patients',        icon: <UserPlus size={16} />,      cls: 'adm-kpi-green'  },
-          { val: critiques,  label: 'Admissions critiques',     icon: <AlertTriangle size={16} />, cls: 'adm-kpi-danger' },
-          { val: incomplets, label: 'Profils incomplets',       icon: <UserX size={16} />,         cls: 'adm-kpi-orange' },
-        ].map(s => (
-          <div key={s.label} className={`adm-kpi ${s.cls}`}>
-            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 8 }}>
-              <p className="adm-kpi-lbl" style={{ marginBottom: 0 }}>{s.label}</p>
-              <span style={{ opacity: 0.6 }}>{s.icon}</span>
-            </div>
-            <div className="adm-kpi-val">{loading ? '…' : s.val}</div>
-          </div>
-        ))}
       </div>
 
       {/* Tableau */}
