@@ -6,6 +6,7 @@ import { Layout } from './layout/Layout';
 import LoginPage from './pages/auth/LoginPage/LoginPage';
 import AccueilPatient from './pages/accueilPatient/AccueilPatient';
 import RechercheDossier from './pages/RechercheDossier/RechercheDossier';
+import RegistreJour from './pages/RegistreJour/RegistreJour';
 import ProfilPage from './pages/ProfilPage/ProfilPage';
 import ConfidentialitePage from './pages/ConfidentialitePage/ConfidentialitePage';
 import NotificationsPage from './pages/NotificationsPage/NotificationsPage';
@@ -29,7 +30,7 @@ function App() {
               <Route path="accueil" element={<AccueilPatient />} />
               <Route path="recherche" element={<RechercheDossier />} />
               <Route path="file" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>File d'attente — En développement</p></div>} />
-              <Route path="registre" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>Registre du jour — En développement</p></div>} />
+              <Route path="registre" element={<RegistreJour />} />
               <Route path="statistiques" element={<div style={{ padding: 24 }}><p style={{ fontSize: 18, color: 'var(--c-t0)' }}>Statistiques — En développement</p></div>} />
               <Route path="notifications"   element={<NotificationsPage />}   />
               <Route path="profil"          element={<ProfilPage />}          />
