@@ -28,11 +28,7 @@ export const Sidebar = ({ minimized }: { minimized: boolean }) => (
         <circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/>
       </svg>
     } label="Recherche Dossier" />
-    <Item to="/file" minimized={minimized} icon={
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>
-      </svg>
-    } label="File d'attente" />
+   
 
     <div className="adm-nav-sec">Journée</div>
     <Item to="/registre" minimized={minimized} icon={
@@ -41,11 +37,7 @@ export const Sidebar = ({ minimized }: { minimized: boolean }) => (
         <path d="M8 7h8"/><path d="M8 11h8"/><path d="M8 15h5"/>
       </svg>
     } label="Registre du jour" />
-    <Item to="/statistiques" minimized={minimized} icon={
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-        <path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M22 20V14"/>
-      </svg>
-    } label="Statistiques" />
+
 
     <div className="adm-nav-sec">Paramètres</div>
     <Item to="/notifications" minimized={minimized} icon={
