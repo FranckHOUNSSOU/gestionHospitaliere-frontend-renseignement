@@ -12,10 +12,17 @@ export interface Patient {
   numeroIpp: string;
   nom: string;
   prenom: string;
+  nomJeuneFille?: string | null;
   sexe: 'M' | 'F' | 'Autre';
   dateNaissance: string | null;
+  lieuNaissance?: string | null;
+  nationalite?: string | null;
+  langue?: string | null;
   adresse: string | null;
+  ville?: string | null;
+  pays?: string | null;
   telephoneMobile: string | null;
+  telephoneFixe?: string | null;
   email: string | null;
   statutProfil: 'Complet' | 'Incomplet';
   creePar: { id: string; nom: string; prenom: string } | null;
