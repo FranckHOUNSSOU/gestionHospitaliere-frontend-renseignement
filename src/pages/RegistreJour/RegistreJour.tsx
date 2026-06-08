@@ -24,11 +24,10 @@ function dateComplete(iso: string) {
 type TypeFilter = 'all' | 'nouveau' | 'critique';
 
 interface EditForm {
-  nom: string; prenom: string; nomJeuneFille: string;
+  nom: string; prenom: string;
   sexe: 'M' | 'F' | 'Autre'; dateNaissance: string;
-  lieuNaissance: string; nationalite: string; langue: string;
-  adresse: string; ville: string; pays: string;
-  telephoneMobile: string; telephoneFixe: string; email: string;
+  lieuNaissance: string; nationalite: string;
+  adresse: string; telephoneMobile: string; telephoneFixe: string; email: string;
 }
 
 export default function RegistreJour() {
@@ -39,7 +38,7 @@ export default function RegistreJour() {
   const [typeFilter,  setTypeFilter]  = useState<TypeFilter>('all');
   const [expanded,    setExpanded]    = useState<string | null>(null);
   const [editPatient, setEditPatient] = useState<Patient | null>(null);
-  const [editForm,    setEditForm]    = useState<EditForm>({ nom: '', prenom: '', nomJeuneFille: '', sexe: 'M', dateNaissance: '', lieuNaissance: '', nationalite: '', langue: '', adresse: '', ville: '', pays: '', telephoneMobile: '', telephoneFixe: '', email: '' });
+  const [editForm,    setEditForm]    = useState<EditForm>({ nom: '', prenom: '', sexe: 'M', dateNaissance: '', lieuNaissance: '', nationalite: '', adresse: '', telephoneMobile: '', telephoneFixe: '', email: '' });
   const [editSaving,  setEditSaving]  = useState(false);
   const [editErr,     setEditErr]     = useState<string | null>(null);
   const [deleteId,    setDeleteId]    = useState<string | null>(null);
@@ -82,11 +81,11 @@ export default function RegistreJour() {
   function openEdit(p: Patient) {
     setEditPatient(p);
     setEditForm({
-      nom: p.nom, prenom: p.prenom, nomJeuneFille: p.nomJeuneFille ?? '',
+      nom: p.nom, prenom: p.prenom,
       sexe: p.sexe, dateNaissance: p.dateNaissance?.slice(0, 10) ?? '',
-      lieuNaissance: p.lieuNaissance ?? '', nationalite: p.nationalite ?? '', langue: p.langue ?? '',
-      adresse: p.adresse ?? '', ville: p.ville ?? '', pays: p.pays ?? '',
-      telephoneMobile: p.telephoneMobile ?? '', telephoneFixe: p.telephoneFixe ?? '', email: p.email ?? '',
+      lieuNaissance: p.lieuNaissance ?? '', nationalite: p.nationalite ?? '',
+      adresse: p.adresse ?? '', telephoneMobile: p.telephoneMobile ?? '',
+      telephoneFixe: p.telephoneFixe ?? '', email: p.email ?? '',
     });
     setEditErr(null);
   }
@@ -97,20 +96,16 @@ export default function RegistreJour() {
     setEditSaving(true); setEditErr(null);
     try {
       const updated = await patientsData.modifier(editPatient.id, {
-        nom:            editForm.nom.trim(),
-        prenom:         editForm.prenom.trim(),
-        nomJeuneFille:  editForm.nomJeuneFille.trim()  || undefined,
-        sexe:           editForm.sexe,
-        dateNaissance:  editForm.dateNaissance         || undefined,
-        lieuNaissance:  editForm.lieuNaissance.trim()  || undefined,
-        nationalite:    editForm.nationalite.trim()    || undefined,
-        langue:         editForm.langue.trim()         || undefined,
-        adresse:        editForm.adresse.trim()        || undefined,
-        ville:          editForm.ville.trim()          || undefined,
-        pays:           editForm.pays.trim()           || undefined,
-        telephoneMobile:editForm.telephoneMobile.trim()|| undefined,
-        telephoneFixe:  editForm.telephoneFixe.trim()  || undefined,
-        email:          editForm.email.trim()          || undefined,
+        nom:             editForm.nom.trim(),
+        prenom:          editForm.prenom.trim(),
+        sexe:            editForm.sexe,
+        dateNaissance:   editForm.dateNaissance        || undefined,
+        lieuNaissance:   editForm.lieuNaissance.trim() || undefined,
+        nationalite:     editForm.nationalite.trim()   || undefined,
+        adresse:         editForm.adresse.trim()       || undefined,
+        telephoneMobile: editForm.telephoneMobile.trim()|| undefined,
+        telephoneFixe:   editForm.telephoneFixe.trim() || undefined,
+        email:           editForm.email.trim()         || undefined,
       } as any);
       setPatients(prev => prev.map(p => p.id === updated.id ? { ...p, ...updated } : p));
       setEditPatient(null);
@@ -415,15 +410,11 @@ export default function RegistreJour() {
                   <input className="adm-input" value={editForm.nom} onChange={e => setEditForm(f => ({ ...f, nom: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
-                  <label className="adm-label">Prénom *</label>
+                  <label className="adm-label">Prénom(s) *</label>
                   <input className="adm-input" value={editForm.prenom} onChange={e => setEditForm(f => ({ ...f, prenom: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
-                  <label className="adm-label">Nom de jeune fille</label>
-                  <input className="adm-input" value={editForm.nomJeuneFille} onChange={e => setEditForm(f => ({ ...f, nomJeuneFille: e.target.value }))} />
-                </div>
-                <div className="adm-form-field">
-                  <label className="adm-label">Sexe</label>
+                  <label className="adm-label">Sexe *</label>
                   <select className="adm-input" value={editForm.sexe} onChange={e => setEditForm(f => ({ ...f, sexe: e.target.value as 'M' | 'F' | 'Autre' }))}>
                     <option value="M">Masculin</option>
                     <option value="F">Féminin</option>
@@ -431,48 +422,36 @@ export default function RegistreJour() {
                   </select>
                 </div>
                 <div className="adm-form-field">
-                  <label className="adm-label">Date de naissance</label>
+                  <label className="adm-label">Date de naissance *</label>
                   <input type="date" className="adm-input" value={editForm.dateNaissance} onChange={e => setEditForm(f => ({ ...f, dateNaissance: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
                   <label className="adm-label">Lieu de naissance</label>
-                  <input className="adm-input" value={editForm.lieuNaissance} onChange={e => setEditForm(f => ({ ...f, lieuNaissance: e.target.value }))} />
+                  <input className="adm-input" placeholder="Ex: Cotonou" value={editForm.lieuNaissance} onChange={e => setEditForm(f => ({ ...f, lieuNaissance: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
                   <label className="adm-label">Nationalité</label>
-                  <input className="adm-input" value={editForm.nationalite} onChange={e => setEditForm(f => ({ ...f, nationalite: e.target.value }))} />
-                </div>
-                <div className="adm-form-field">
-                  <label className="adm-label">Langue</label>
-                  <input className="adm-input" value={editForm.langue} onChange={e => setEditForm(f => ({ ...f, langue: e.target.value }))} />
+                  <input className="adm-input" placeholder="Ex: Béninoise" value={editForm.nationalite} onChange={e => setEditForm(f => ({ ...f, nationalite: e.target.value }))} />
                 </div>
               </div>
 
               <p style={{ margin: '4px 0 0', fontSize: 11, fontWeight: 700, color: 'var(--c-t3)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Coordonnées</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
                 <div className="adm-form-field" style={{ gridColumn: '1 / -1' }}>
-                  <label className="adm-label">Adresse</label>
-                  <input className="adm-input" value={editForm.adresse} onChange={e => setEditForm(f => ({ ...f, adresse: e.target.value }))} />
+                  <label className="adm-label">Adresse complète *</label>
+                  <input className="adm-input" placeholder="Ex: Quartier Cadjèhoun, Rue 23" value={editForm.adresse} onChange={e => setEditForm(f => ({ ...f, adresse: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
-                  <label className="adm-label">Ville</label>
-                  <input className="adm-input" value={editForm.ville} onChange={e => setEditForm(f => ({ ...f, ville: e.target.value }))} />
-                </div>
-                <div className="adm-form-field">
-                  <label className="adm-label">Pays</label>
-                  <input className="adm-input" value={editForm.pays} onChange={e => setEditForm(f => ({ ...f, pays: e.target.value }))} />
-                </div>
-                <div className="adm-form-field">
-                  <label className="adm-label">Téléphone mobile</label>
+                  <label className="adm-label">Téléphone mobile *</label>
                   <input className="adm-input" placeholder="+229 97…" value={editForm.telephoneMobile} onChange={e => setEditForm(f => ({ ...f, telephoneMobile: e.target.value }))} />
                 </div>
                 <div className="adm-form-field">
-                  <label className="adm-label">Téléphone fixe</label>
+                  <label className="adm-label">Téléphone secondaire</label>
                   <input className="adm-input" placeholder="+229 21…" value={editForm.telephoneFixe} onChange={e => setEditForm(f => ({ ...f, telephoneFixe: e.target.value }))} />
                 </div>
                 <div className="adm-form-field" style={{ gridColumn: '1 / -1' }}>
                   <label className="adm-label">Email</label>
-                  <input className="adm-input" type="email" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} />
+                  <input className="adm-input" type="email" placeholder="Ex: patient@email.com" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} />
                 </div>
               </div>
             </div>
