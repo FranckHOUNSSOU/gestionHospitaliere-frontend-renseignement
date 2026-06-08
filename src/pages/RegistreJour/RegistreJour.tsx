@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   RefreshCw, Search, BookOpen, UserPlus,
   AlertTriangle, ChevronDown, ChevronRight,
-  Phone, Calendar, User, MapPin, Shield,
+  Phone, Calendar, User, MapPin, Shield, Edit2, Trash2, X, Save,
 } from 'lucide-react';
 import { patientsData, type Patient } from '../../services/patients';
 
@@ -21,8 +21,9 @@ function dateComplete(iso: string) {
   });
 }
 
-type TypeFilter   = 'all' | 'nouveau' | 'critique';
-type StatutFilter = 'all' | 'Complet' | 'Incomplet';
+type TypeFilter = 'all' | 'nouveau' | 'critique';
+
+interface EditForm { nom: string; prenom: string; telephoneMobile: string; adresse: string; email: string; }
 
 export default function RegistreJour() {
   const [patients,    setPatients]    = useState<Patient[]>([]);
@@ -30,8 +31,13 @@ export default function RegistreJour() {
   const [lastRefresh, setLastRefresh] = useState(new Date());
   const [search,      setSearch]      = useState('');
   const [typeFilter,  setTypeFilter]  = useState<TypeFilter>('all');
-  const [statutFilter,setStatutFilter]= useState<StatutFilter>('all');
   const [expanded,    setExpanded]    = useState<string | null>(null);
+  const [editPatient, setEditPatient] = useState<Patient | null>(null);
+  const [editForm,    setEditForm]    = useState<EditForm>({ nom: '', prenom: '', telephoneMobile: '', adresse: '', email: '' });
+  const [editSaving,  setEditSaving]  = useState(false);
+  const [editErr,     setEditErr]     = useState<string | null>(null);
+  const [deleteId,    setDeleteId]    = useState<string | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -63,9 +69,44 @@ export default function RegistreJour() {
       typeFilter === 'all' ||
       (typeFilter === 'critique' &&  isCritique) ||
       (typeFilter === 'nouveau'  && !isCritique);
-    const matchStatut = statutFilter === 'all' || p.statutProfil === statutFilter;
-    return matchSearch && matchType && matchStatut;
+    return matchSearch && matchType;
   });
+
+  /* ── Actions ─────────────────────────────────────────────────── */
+  function openEdit(p: Patient) {
+    setEditPatient(p);
+    setEditForm({ nom: p.nom, prenom: p.prenom, telephoneMobile: p.telephoneMobile ?? '', adresse: p.adresse ?? '', email: p.email ?? '' });
+    setEditErr(null);
+  }
+
+  async function handleSaveEdit() {
+    if (!editPatient) return;
+    if (!editForm.nom.trim() || !editForm.prenom.trim()) { setEditErr('Nom et prénom sont obligatoires.'); return; }
+    setEditSaving(true); setEditErr(null);
+    try {
+      const updated = await patientsData.modifier(editPatient.id, {
+        nom: editForm.nom.trim(),
+        prenom: editForm.prenom.trim(),
+        telephoneMobile: editForm.telephoneMobile.trim() || undefined,
+        adresse: editForm.adresse.trim() || undefined,
+        email: editForm.email.trim() || undefined,
+      } as any);
+      setPatients(prev => prev.map(p => p.id === updated.id ? { ...p, ...updated } : p));
+      setEditPatient(null);
+    } catch (e: any) { setEditErr(e?.message ?? 'Erreur lors de la modification.'); }
+    finally { setEditSaving(false); }
+  }
+
+  async function handleDelete(id: string) {
+    setDeleteLoading(true);
+    try {
+      await patientsData.supprimer(id);
+      setPatients(prev => prev.filter(p => p.id !== id));
+      setDeleteId(null);
+    } catch (e: any) {
+      alert(e?.message ?? 'Impossible de supprimer ce patient.');
+    } finally { setDeleteLoading(false); }
+  }
 
   /* ── Render ─────────────────────────────────────────────────── */
   return (
@@ -124,16 +165,6 @@ export default function RegistreJour() {
               </button>
             ))}
           </div>
-          <select
-            className="adm-input"
-            style={{ width: 'auto', padding: '6px 10px' }}
-            value={statutFilter}
-            onChange={e => setStatutFilter(e.target.value as StatutFilter)}
-          >
-            <option value="all">Tous les profils</option>
-            <option value="Complet">Complet</option>
-            <option value="Incomplet">Incomplet</option>
-          </select>
         </div>
 
         <div style={{ overflowX: 'auto' }}>
@@ -272,6 +303,7 @@ export default function RegistreJour() {
                       {isExpanded && (
                         <tr style={{ background: 'var(--c-surf2)' }}>
                           <td colSpan={7} style={{ padding: '14px 20px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
                             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap', fontSize: 12 }}>
                               {p.telephoneMobile && (
                                 <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--c-t1)' }}>
@@ -303,6 +335,23 @@ export default function RegistreJour() {
                                 </span>
                               )}
                             </div>
+                            <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
+                              <button
+                                onClick={e => { e.stopPropagation(); openEdit(p); }}
+                                className="adm-btn"
+                                style={{ height: 30, fontSize: 11, gap: 5 }}
+                              >
+                                <Edit2 size={12} /> Modifier
+                              </button>
+                              <button
+                                onClick={e => { e.stopPropagation(); setDeleteId(p.id); }}
+                                className="adm-btn"
+                                style={{ height: 30, fontSize: 11, gap: 5, color: '#dc2626', borderColor: '#dc2626' }}
+                              >
+                                <Trash2 size={12} /> Supprimer
+                              </button>
+                            </div>
+                            </div>
                           </td>
                         </tr>
                       )}
@@ -325,6 +374,72 @@ export default function RegistreJour() {
           </div>
         )}
       </div>
+
+      {/* Modal édition */}
+      {editPatient && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.45)', padding: 16 }}
+          onClick={e => { if (e.target === e.currentTarget) setEditPatient(null); }}>
+          <div style={{ background: 'var(--c-bg)', borderRadius: 12, width: '100%', maxWidth: 520, boxShadow: '0 8px 32px rgba(0,0,0,0.2)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 20px', borderBottom: '1px solid var(--c-bdr)' }}>
+              <p style={{ margin: 0, fontWeight: 700, fontSize: 14 }}>Modifier le dossier</p>
+              <button onClick={() => setEditPatient(null)} style={{ background: 'none', border: 'none', cursor: 'pointer' }}><X size={18} /></button>
+            </div>
+            <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {editErr && <div style={{ fontSize: 12, color: '#dc2626', background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 6, padding: '8px 12px' }}>{editErr}</div>}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                <div className="adm-form-field">
+                  <label className="adm-label">Nom *</label>
+                  <input className="adm-input" value={editForm.nom} onChange={e => setEditForm(f => ({ ...f, nom: e.target.value }))} />
+                </div>
+                <div className="adm-form-field">
+                  <label className="adm-label">Prénom *</label>
+                  <input className="adm-input" value={editForm.prenom} onChange={e => setEditForm(f => ({ ...f, prenom: e.target.value }))} />
+                </div>
+              </div>
+              <div className="adm-form-field">
+                <label className="adm-label">Téléphone mobile</label>
+                <input className="adm-input" placeholder="+229 97…" value={editForm.telephoneMobile} onChange={e => setEditForm(f => ({ ...f, telephoneMobile: e.target.value }))} />
+              </div>
+              <div className="adm-form-field">
+                <label className="adm-label">Adresse</label>
+                <input className="adm-input" value={editForm.adresse} onChange={e => setEditForm(f => ({ ...f, adresse: e.target.value }))} />
+              </div>
+              <div className="adm-form-field">
+                <label className="adm-label">Email</label>
+                <input className="adm-input" type="email" value={editForm.email} onChange={e => setEditForm(f => ({ ...f, email: e.target.value }))} />
+              </div>
+            </div>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end', padding: '12px 20px', borderTop: '1px solid var(--c-bdr)' }}>
+              <button onClick={() => setEditPatient(null)} className="adm-btn" style={{ height: 34 }}>Annuler</button>
+              <button onClick={handleSaveEdit} disabled={editSaving} className="adm-btn adm-btn-primary" style={{ height: 34, gap: 6 }}>
+                <Save size={13} /> {editSaving ? 'Enregistrement…' : 'Enregistrer'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal confirmation suppression */}
+      {deleteId && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.45)', padding: 16 }}>
+          <div style={{ background: 'var(--c-bg)', borderRadius: 12, width: '100%', maxWidth: 420, boxShadow: '0 8px 32px rgba(0,0,0,0.2)', padding: 24 }}>
+            <p style={{ margin: '0 0 8px', fontWeight: 700, fontSize: 15 }}>Confirmer la suppression</p>
+            <p style={{ margin: '0 0 20px', fontSize: 13, color: 'var(--c-t2)' }}>
+              Ce dossier sera définitivement supprimé. Cette action est irréversible.
+            </p>
+            <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+              <button onClick={() => setDeleteId(null)} className="adm-btn" style={{ height: 34 }}>Annuler</button>
+              <button
+                onClick={() => handleDelete(deleteId)}
+                disabled={deleteLoading}
+                style={{ height: 34, padding: '0 16px', background: '#dc2626', color: '#fff', border: 'none', borderRadius: 6, fontSize: 13, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6 }}
+              >
+                <Trash2 size={13} /> {deleteLoading ? 'Suppression…' : 'Supprimer définitivement'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
     </div>

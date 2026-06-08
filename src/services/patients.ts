@@ -103,6 +103,16 @@ export const patientsData = {
       .sort((a, b) => a.createdAt.localeCompare(b.createdAt));
   },
 
+  modifier: async (id: string, payload: Partial<AccueilPayload>): Promise<Patient> => {
+    const { data } = await client.patch<Patient>(`/patients/${id}`, payload);
+    return data;
+  },
+
+  supprimer: async (id: string): Promise<{ message: string }> => {
+    const { data } = await client.delete<{ message: string }>(`/patients/${id}`);
+    return data;
+  },
+
   fetchStatsToday: async (): Promise<PatientStats> => {
     const { data } = await client.get<Patient[]>('/patients');
 
