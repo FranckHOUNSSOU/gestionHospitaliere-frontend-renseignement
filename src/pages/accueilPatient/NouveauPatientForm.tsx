@@ -84,8 +84,8 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
         />
         <div className="adm-form-section-body">
           <div className="adm-form-grid adm-form-grid-3">
-            <Field label="Nom" required><input className="adm-input" placeholder="Ex: HOUNSOU" value={form.nom} onChange={set('nom')} /></Field>
-            <Field label="Prénom(s)" required><input className="adm-input" placeholder="Ex: Franck Serge" value={form.prenoms} onChange={set('prenoms')} /></Field>
+            <Field label="Nom" required><input className="adm-input" placeholder="" value={form.nom} onChange={set('nom')} /></Field>
+            <Field label="Prénom(s)" required><input className="adm-input" placeholder="" value={form.prenoms} onChange={set('prenoms')} /></Field>
             <Field label="Sexe" required>
               <select className="adm-input" value={form.sexe} onChange={set('sexe')}>
                 <option value="">— Choisir —</option>
@@ -95,9 +95,9 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
               </select>
             </Field>
             <Field label="Date de naissance" required><input type="date" className="adm-input" value={form.dateNaissance} onChange={set('dateNaissance')} /></Field>
-            <Field label="Lieu de naissance"><input className="adm-input" placeholder="Ex: Cotonou" value={form.lieuNaissance} onChange={set('lieuNaissance')} /></Field>
-            <Field label="Nationalité"><input className="adm-input" placeholder="Ex: Béninoise" value={form.nationalite} onChange={set('nationalite')} /></Field>
-            <Field label="Profession"><input className="adm-input" placeholder="Ex: Enseignant" value={form.profession} onChange={set('profession')} /></Field>
+            <Field label="Lieu de naissance"><input className="adm-input" placeholder="" value={form.lieuNaissance} onChange={set('lieuNaissance')} /></Field>
+            <Field label="Nationalité"><input className="adm-input" placeholder="" value={form.nationalite} onChange={set('nationalite')} /></Field>
+            <Field label="Profession"><input className="adm-input" placeholder="" value={form.profession} onChange={set('profession')} /></Field>
             <Field label="Situation familiale">
               <select className="adm-input" value={form.situationFamiliale} onChange={set('situationFamiliale')}>
                 <option value="">— Choisir —</option>
@@ -107,7 +107,7 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
                 <option value="veuf">Veuf / Veuve</option>
               </select>
             </Field>
-            <Field label="N° CNI / Passeport"><input className="adm-input" placeholder="Ex: BJ20240001234" value={form.numeroCNI} onChange={set('numeroCNI')} /></Field>
+            <Field label="N° CNI / Passeport"><input className="adm-input" placeholder="" value={form.numeroCNI} onChange={set('numeroCNI')} /></Field>
           </div>
         </div>
       </div>
@@ -118,13 +118,13 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
           <div className="adm-form-grid adm-form-grid-3">
             <div className="adm-form-field" style={{ gridColumn: '1 / -1' }}>
               <label className="adm-label">Adresse complète <span style={{ color: 'var(--c-red)' }}>*</span></label>
-              <input className="adm-input" placeholder="Ex: Quartier Cadjèhoun, Rue 23, Porte 15" value={form.adresse} onChange={set('adresse')} />
+              <input className="adm-input" placeholder="" value={form.adresse} onChange={set('adresse')} />
             </div>
-            <Field label="Commune"><input className="adm-input" placeholder="Ex: Cotonou" value={form.commune} onChange={set('commune')} /></Field>
-            <Field label="Département"><input className="adm-input" placeholder="Ex: Littoral" value={form.departement} onChange={set('departement')} /></Field>
-            <Field label="Email"><input type="email" className="adm-input" placeholder="Ex: patient@email.com" value={form.email} onChange={set('email')} /></Field>
-            <Field label="Téléphone mobile" required><input className="adm-input" placeholder="+229 97 00 00 00" value={form.telephoneMobile} onChange={set('telephoneMobile')} /></Field>
-            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="+229 97 00 00 00" value={form.telephoneSecondaire} onChange={set('telephoneSecondaire')} /></Field>
+            <Field label="Commune"><input className="adm-input" placeholder="" value={form.commune} onChange={set('commune')} /></Field>
+            <Field label="Département"><input className="adm-input" placeholder="" value={form.departement} onChange={set('departement')} /></Field>
+            <Field label="Email"><input type="email" className="adm-input" placeholder="" value={form.email} onChange={set('email')} /></Field>
+            <Field label="Téléphone mobile" required><input className="adm-input" placeholder="" value={form.telephoneMobile} onChange={set('telephoneMobile')} /></Field>
+            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="" value={form.telephoneSecondaire} onChange={set('telephoneSecondaire')} /></Field>
           </div>
         </div>
       </div>
@@ -133,8 +133,8 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
         <SectionHeader num="3" color="#d97706" title="Contact d'urgence" />
         <div className="adm-form-section-body">
           <div className="adm-form-grid adm-form-grid-3">
-            <Field label="Nom" required><input className="adm-input" placeholder="Ex: HOUNSOU" value={form.contactUrgenceNom} onChange={set('contactUrgenceNom')} /></Field>
-            <Field label="Prénom(s)" required><input className="adm-input" placeholder="Ex: Marie" value={form.contactUrgencePrenoms} onChange={set('contactUrgencePrenoms')} /></Field>
+            <Field label="Nom" required><input className="adm-input" placeholder="" value={form.contactUrgenceNom} onChange={set('contactUrgenceNom')} /></Field>
+            <Field label="Prénom(s)" required><input className="adm-input" placeholder="" value={form.contactUrgencePrenoms} onChange={set('contactUrgencePrenoms')} /></Field>
             <Field label="Lien de parenté" required>
               <select className="adm-input" value={form.contactUrgenceLienParente} onChange={set('contactUrgenceLienParente')}>
                 <option value="">— Choisir —</option>
@@ -148,9 +148,9 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
                 <option value="Autre">Autre</option>
               </select>
             </Field>
-            <Field label="Téléphone" required><input className="adm-input" placeholder="+229 97 00 00 00" value={form.contactUrgenceTelephone} onChange={set('contactUrgenceTelephone')} /></Field>
-            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="+229 97 00 00 00" value={form.contactUrgenceTelSecondaire} onChange={set('contactUrgenceTelSecondaire')} /></Field>
-            <Field label="Adresse"><input className="adm-input" placeholder="Ex: Cotonou, Akpakpa" value={form.contactUrgenceAdresse} onChange={set('contactUrgenceAdresse')} /></Field>
+            <Field label="Téléphone" required><input className="adm-input" placeholder="" value={form.contactUrgenceTelephone} onChange={set('contactUrgenceTelephone')} /></Field>
+            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="" value={form.contactUrgenceTelSecondaire} onChange={set('contactUrgenceTelSecondaire')} /></Field>
+            <Field label="Adresse"><input className="adm-input" placeholder="" value={form.contactUrgenceAdresse} onChange={set('contactUrgenceAdresse')} /></Field>
           </div>
         </div>
         <div style={{
