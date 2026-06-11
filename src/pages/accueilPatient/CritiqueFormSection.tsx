@@ -108,7 +108,7 @@ export const CritiqueFormSection: React.FC<{ onSuccess: () => void }> = ({ onSuc
               <label className="adm-label">Circonstances d'admission</label>
               <textarea
                 className="adm-input" rows={3}
-                placeholder="Accident, malaise, blessure… (informations des secours ou de l'accompagnant)"
+                placeholder=""
                 value={form.circonstancesAdmission} onChange={set('circonstancesAdmission')}
               />
             </div>
