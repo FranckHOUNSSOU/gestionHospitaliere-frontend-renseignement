@@ -135,10 +135,10 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
             <Field label="Département"><input className="adm-input" placeholder="" value={form.departement} onChange={set('departement')} /></Field>
             <Field label="Email"><input type="email" className="adm-input" placeholder="" value={form.email} onChange={set('email')} /></Field>
             <Field label="Téléphone mobile" required>
-              <PhoneInput defaultCountry="bj" value={form.telephoneMobile} onChange={(phone) => setForm(f => ({ ...f, telephoneMobile: phone }))} inputClassName="adm-input" />
+              <PhoneInput defaultCountry="bj" value={form.telephoneMobile} onChange={(phone) => setForm(f => ({ ...f, telephoneMobile: phone }))} className="adm-phone-input" />
             </Field>
             <Field label="Téléphone secondaire">
-              <PhoneInput defaultCountry="bj" value={form.telephoneSecondaire} onChange={(phone) => setForm(f => ({ ...f, telephoneSecondaire: phone }))} inputClassName="adm-input" />
+              <PhoneInput defaultCountry="bj" value={form.telephoneSecondaire} onChange={(phone) => setForm(f => ({ ...f, telephoneSecondaire: phone }))} className="adm-phone-input" />
             </Field>
           </div>
         </div>
@@ -164,10 +164,10 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
               </select>
             </Field>
             <Field label="Téléphone" required>
-              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelephone} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelephone: phone }))} inputClassName="adm-input" />
+              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelephone} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelephone: phone }))} className="adm-phone-input" />
             </Field>
             <Field label="Téléphone secondaire">
-              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelSecondaire} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelSecondaire: phone }))} inputClassName="adm-input" />
+              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelSecondaire} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelSecondaire: phone }))} className="adm-phone-input" />
             </Field>
             <Field label="Adresse"><input className="adm-input" placeholder="" value={form.contactUrgenceAdresse} onChange={set('contactUrgenceAdresse')} /></Field>
           </div>
