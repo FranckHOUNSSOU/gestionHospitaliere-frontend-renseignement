@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { AlertTriangle, CheckCircle, ChevronRight, Info, RotateCcw } from 'lucide-react';
+import { PhoneInput } from 'react-international-phone';
 import { patientsData, type AccueilPayload } from '../../services/patients';
 import { type NouveauForm, emptyNouveau } from './types';
 import { Field, SectionHeader } from './shared';
+
+const isValidPhone = (phone: string) => /^\+[1-9]\d{7,14}$/.test(phone);
 
 export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSuccess }) => {
   const [form, setForm] = useState<NouveauForm>(emptyNouveau());
@@ -16,11 +19,19 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
 
   const handleSubmit = async () => {
     const required: (keyof NouveauForm)[] = [
-      'nom', 'prenoms', 'sexe', 'dateNaissance', 'adresse', 'telephoneMobile',
-      'contactUrgenceNom', 'contactUrgencePrenoms', 'contactUrgenceLienParente', 'contactUrgenceTelephone',
+      'nom', 'prenoms', 'sexe', 'dateNaissance', 'adresse',
+      'contactUrgenceNom', 'contactUrgencePrenoms', 'contactUrgenceLienParente',
     ];
     if (required.some(k => !form[k].trim())) {
       setError('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+    if (!isValidPhone(form.telephoneMobile)) {
+      setError('Numéro de téléphone mobile invalide.');
+      return;
+    }
+    if (!isValidPhone(form.contactUrgenceTelephone)) {
+      setError('Numéro de téléphone du contact d\'urgence invalide.');
       return;
     }
 
@@ -123,8 +134,12 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
             <Field label="Commune"><input className="adm-input" placeholder="" value={form.commune} onChange={set('commune')} /></Field>
             <Field label="Département"><input className="adm-input" placeholder="" value={form.departement} onChange={set('departement')} /></Field>
             <Field label="Email"><input type="email" className="adm-input" placeholder="" value={form.email} onChange={set('email')} /></Field>
-            <Field label="Téléphone mobile" required><input className="adm-input" placeholder="" value={form.telephoneMobile} onChange={set('telephoneMobile')} /></Field>
-            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="" value={form.telephoneSecondaire} onChange={set('telephoneSecondaire')} /></Field>
+            <Field label="Téléphone mobile" required>
+              <PhoneInput defaultCountry="bj" value={form.telephoneMobile} onChange={(phone) => setForm(f => ({ ...f, telephoneMobile: phone }))} inputClassName="adm-input" />
+            </Field>
+            <Field label="Téléphone secondaire">
+              <PhoneInput defaultCountry="bj" value={form.telephoneSecondaire} onChange={(phone) => setForm(f => ({ ...f, telephoneSecondaire: phone }))} inputClassName="adm-input" />
+            </Field>
           </div>
         </div>
       </div>
@@ -148,8 +163,12 @@ export const NouveauPatientForm: React.FC<{ onSuccess: () => void }> = ({ onSucc
                 <option value="Autre">Autre</option>
               </select>
             </Field>
-            <Field label="Téléphone" required><input className="adm-input" placeholder="" value={form.contactUrgenceTelephone} onChange={set('contactUrgenceTelephone')} /></Field>
-            <Field label="Téléphone secondaire"><input className="adm-input" placeholder="" value={form.contactUrgenceTelSecondaire} onChange={set('contactUrgenceTelSecondaire')} /></Field>
+            <Field label="Téléphone" required>
+              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelephone} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelephone: phone }))} inputClassName="adm-input" />
+            </Field>
+            <Field label="Téléphone secondaire">
+              <PhoneInput defaultCountry="bj" value={form.contactUrgenceTelSecondaire} onChange={(phone) => setForm(f => ({ ...f, contactUrgenceTelSecondaire: phone }))} inputClassName="adm-input" />
+            </Field>
             <Field label="Adresse"><input className="adm-input" placeholder="" value={form.contactUrgenceAdresse} onChange={set('contactUrgenceAdresse')} /></Field>
           </div>
         </div>
