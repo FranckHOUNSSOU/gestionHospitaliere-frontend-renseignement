@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { AlertTriangle, Info, RotateCcw } from 'lucide-react';
+import { PhoneInput } from 'react-international-phone';
 import { patientsData, type CritiquePayload } from '../../services/patients';
 import { type CritiqueForm, emptyCritique } from './types';
 import { Field } from './shared';
@@ -103,7 +104,9 @@ export const CritiqueFormSection: React.FC<{ onSuccess: () => void }> = ({ onSuc
             </Field>
             <Field label="Âge estimé"><input className="adm-input" value={form.ageEstime} onChange={set('ageEstime')} /></Field>
             <Field label="Accompagnant (nom)"><input className="adm-input" placeholder="Nom de l'accompagnant" value={form.accompagnantNom} onChange={set('accompagnantNom')} /></Field>
-            <Field label="Téléphone accompagnant"><input className="adm-input" placeholder="+229 97 00 00 00" value={form.accompagnantTelephone} onChange={set('accompagnantTelephone')} /></Field>
+            <Field label="Téléphone accompagnant">
+              <PhoneInput defaultCountry="bj" value={form.accompagnantTelephone} onChange={(phone) => setForm(f => ({ ...f, accompagnantTelephone: phone }))} inputClassName="adm-input" />
+            </Field>
             <div className="adm-form-field" style={{ gridColumn: '1 / -1' }}>
               <label className="adm-label">Circonstances d'admission</label>
               <textarea
