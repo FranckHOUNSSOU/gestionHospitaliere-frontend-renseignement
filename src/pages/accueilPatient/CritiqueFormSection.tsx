@@ -101,7 +101,7 @@ export const CritiqueFormSection: React.FC<{ onSuccess: () => void }> = ({ onSuc
                 <option value="Autre">Autre</option>
               </select>
             </Field>
-            <Field label="Âge estimé"><input className="adm-input" placeholder="Ex: 35" value={form.ageEstime} onChange={set('ageEstime')} /></Field>
+            <Field label="Âge estimé"><input className="adm-input" value={form.ageEstime} onChange={set('ageEstime')} /></Field>
             <Field label="Accompagnant (nom)"><input className="adm-input" placeholder="Nom de l'accompagnant" value={form.accompagnantNom} onChange={set('accompagnantNom')} /></Field>
             <Field label="Téléphone accompagnant"><input className="adm-input" placeholder="+229 97 00 00 00" value={form.accompagnantTelephone} onChange={set('accompagnantTelephone')} /></Field>
             <div className="adm-form-field" style={{ gridColumn: '1 / -1' }}>
